@@ -50,7 +50,7 @@ if ($Shortcuts.Count -gt 0) {
 			$NewShortcut.Save()
 			# Remove the old shortcut (to avoid confusion for users)
 			Write-LogString 'Remove the old shortcut...'
-			Remove-Item $Shortcut -Force
+			Remove-Item $Shortcut.FullName -Force
 		}
 	}
 }
