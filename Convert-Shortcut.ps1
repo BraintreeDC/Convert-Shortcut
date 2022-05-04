@@ -7,7 +7,7 @@ function Write-LogString {
 		$Text
 	)
 	$Timestamp = Get-Date -Format O
-	Write-Host "$($Timestamp) - $($Text)"
+	Write-Output "$($Timestamp) - $($Text)"
 }
 # Get all .website shortcuts on the C: drive of the device
 Write-LogString 'Getting shortcuts on this device...'
