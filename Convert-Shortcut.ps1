@@ -28,7 +28,8 @@ if ($Shortcuts.Count -gt 0) {
 			Write-LogString 'Getting URL from old shortcut...'
 			$ShortcutURL = Get-Content $Shortcut.FullName | ForEach-Object { if ($_.StartsWith('URL=')) { return $_.Split('=')[1] } }
 			Write-LogString $ShortcutURL
-		} catch {
+		}
+		catch {
 			# If unable to get the URL for the shortcut - log issue and set variable to false
 			Write-LogString "Unable to get the URL for $($ShortcutName)!"
 			$ShortcutURL = $false
@@ -47,7 +48,8 @@ if ($Shortcuts.Count -gt 0) {
 				Write-LogString "Shortcut already exists at $($NewShortcutLocation)"
 				# Bump return code so the deployment tool shows an error
 				$ReturnCode++
-			} else {
+			}
+			else {
 				# Create a shell object
 				Write-LogString 'Creating shell object...'
 				$Shell = New-Object -ComObject ('WScript.Shell')
