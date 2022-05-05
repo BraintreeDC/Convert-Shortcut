@@ -25,7 +25,7 @@ function Get-ProperUrl {
 }
 # Get all .website shortcuts on the C: drive of the device
 Write-LogString 'Getting shortcuts on this device...'
-$Shortcuts = Get-ChildItem -Path C:\ -Recurse -Filter *.website -ErrorAction SilentlyContinue
+$Shortcuts = Get-ChildItem -Path 'C:\' -Recurse -Filter '*.website' -File -ErrorAction 'SilentlyContinue' -Force
 # Variable to return on script completion
 $ReturnCode = 0
 # Check if there are shortcuts to update
