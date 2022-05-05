@@ -9,6 +9,20 @@ function Write-LogString {
 	$Timestamp = Get-Date -Format O
 	Write-Output "$($Timestamp) - $($Text)"
 }
+# Function to check if URL needs to be changed (example is HTTP URLs need to be changed to HTTPS for Echo)
+function Get-ProperUrl {
+	[CmdletBinding()]
+	param(
+		[Parameter()]
+		[String]
+		$URL
+	)
+	if ($URL.StartsWith('http://echo.braintree.gov.uk')) {
+		return 'https://echo.braintree.gov.uk/'
+	} else {
+		return $URL
+	}
+}
 # Get all .website shortcuts on the C: drive of the device
 Write-LogString 'Getting shortcuts on this device...'
 $Shortcuts = Get-ChildItem -Path C:\ -Recurse -Filter *.website -ErrorAction SilentlyContinue
@@ -28,6 +42,8 @@ if ($Shortcuts.Count -gt 0) {
 			Write-LogString 'Getting URL from old shortcut...'
 			$ShortcutURL = Get-Content $Shortcut.FullName | ForEach-Object { if ($_.StartsWith('URL=')) { return $_.Split('=')[1] } }
 			Write-LogString $ShortcutURL
+			# Replace unsecured Echo links with secured ones to prevent issues with the Not Secure notice in Edge
+			$ShortcutURL = Get-ProperUrl -URL $ShortcutURL
 		}
 		catch {
 			# If unable to get the URL for the shortcut - log issue and set variable to false
@@ -73,6 +89,6 @@ else {
 	# Nothing to do as no shortcuts have been found
 	Write-LogString 'Nothing to do...'
 }
-# End of script - exit with code 0
+# End of script - exit with return code variable
 Write-LogString 'Script has finished'
 exit $ReturnCode
